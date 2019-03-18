@@ -234,7 +234,7 @@ p
 ## Give a R example(Popular WordCloud)
 
 ```{r fig.height=6, fig.width=6}
-#install.packages("wordcloud2")
+# install.packages("wordcloud2")
 library(wordcloud2)
 wordcloud2(demoFreqC, size = 0.7, shape = 'diamond')
 ```
@@ -267,24 +267,24 @@ wordcloud2(demoFreqC, size = 0.7, shape = 'diamond')
 ## Give a R example(RT air quality of china)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
- #install.packages("rvest")
- #install.packages("leafletCN")
- #install.packages("rgeos")
- #Sys.setlocale("LC_CTYPE", "eng")
- # print(Sys.time())
- # library(rvest, quietly = T)
- # library(leafletCN, quietly = T)
- # library(rgeos, quietly = T)
- # doc = read_html("http://www.pm25s.com/cn/rank/")
- # cities = doc %>% html_nodes(".cityrank a") %>%
- #   html_text()
- # cities = iconv(cities, "UTF-8", "UTF-8")
- # AQI = doc %>% html_nodes("span[class^='lv']") %>%
- #   html_text() %>% .[c(F,F,T)] %>% as.numeric
- # dat = data.frame(city = cities, AQI = AQI)
- # geojsonMap(dat, "city",
- #            popup =  paste0(dat$city,":",dat$AQI),
- #            palette = "Reds", legendTitle = "AQI")
+ # install.packages("rvest")
+ # install.packages("leafletCN")
+ # install.packages("rgeos")
+ Sys.setlocale("LC_CTYPE", "eng")
+ print(Sys.time())
+ library(rvest, quietly = T)
+ library(leafletCN, quietly = T)
+ library(rgeos, quietly = T)
+ doc = read_html("http://www.pm25s.com/cn/rank/")
+ cities = doc %>% html_nodes(".cityrank a") %>%
+   html_text()
+ cities = iconv(cities, "UTF-8", "UTF-8")
+ AQI = doc %>% html_nodes("span[class^='lv']") %>%
+   html_text() %>% .[c(F,F,T)] %>% as.numeric
+ dat = data.frame(city = cities, AQI = AQI)
+ geojsonMap(dat, "city",
+            popup =  paste0(dat$city,":",dat$AQI),
+            palette = "Reds", legendTitle = "AQI")
 ```
 
 ---
@@ -301,8 +301,6 @@ wordcloud2(demoFreqC, size = 0.7, shape = 'diamond')
 [Bioconductor官网]( https://www.bioconductor.org/)
 
 [R语言资料库](https://awesome-r.com/)
-
-[R函数和包的在线帮助文档](https://www.rdocumentation.org/)
 
 **Books**
 
@@ -380,8 +378,6 @@ sd(shot)
 var(shot)
 sd(shot)/mean(shot)
 ```
----
-
 ---
 class: inverse, center, middle
 
