@@ -1,0 +1,123 @@
+---
+title: "Bio-Statistics"
+subtitle: "\n"
+author: "Xuchunhui（徐春晖）"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+class: center, middle, inverse
+
+# Agenda 1: Disscusion
+
+---
+class:  middle
+
+
+```{r echo=TRUE}
+
+G1 <- c("徐文聪", "杜辉", "郭思坤", "陈心怡", "杜婧雯", "董宸", "姚瑶")
+G2 <- c("胡粲", "吴晴歌", "陈玉宁", "肖辅", "徐盛", "吴玄慧", "杨颖超")
+G3 <- c("关晓彤", "陶蕴华", "李颖", "王勇", "谢波", "魏华", "乌尼尔")
+G4 <- c("肖静", "王引梅", "汪菲菲", "宗鑫", "左紫薇", "万启慧","吴琦")
+G5 <- c("张景志", "姜瀛博", "谢永乐", "张朝霞", "汪丽华", "王丹洋", "黄鑫")
+G6 <- c("李春", "肖伊人", "黄梦涵", "苏碧俏", "田世龙", "夏显霖")
+G7 <- c("王俊杰", "肖礼万", "樊鲁玉", "王一洋", "武越" ,"韦彤")
+```
+
+---
+
+class:  center, middle
+
+# Homework Assign
+
+```{r echo=FALSE}
+
+(assign <- data.frame(homework = c(1:7), group = sample(1:7)))
+
+```
+
+---
+
+class: center, middle, inverse
+
+# Agenda 2: Report
+
+---
+class: center, middle
+
+homowork-1
+
+```{r echo=FALSE}
+sample(G1,1)
+```
+
+---
+class: center, middle
+
+homowork-2
+
+```{r echo=FALSE}
+sample(G5,1)
+```
+
+---
+class: center, middle
+
+homowork-3
+
+```{r echo=FALSE}
+sample(G6,1)
+```
+
+---
+class: center, middle
+
+homowork-4
+
+```{r echo=FALSE}
+sample(G4,1)
+```
+
+---
+class: center, middle
+
+homowork-5
+
+```{r echo=FALSE}
+sample(G7,1)
+```
+
+---
+class: center, middle
+
+homowork-6
+
+```{r echo=FALSE}
+sample(G3,1)
+```
+
+---
+class: center, middle
+
+homowork-7
+
+```{r echo=FALSE}
+sample(G2,1)
+```
+
+
+---
+class: inverse, center, middle
+
+# Thanks for supporting
