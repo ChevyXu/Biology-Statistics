@@ -1,0 +1,203 @@
+---
+title: "Bio-Statistics"
+subtitle: "Class fourth"
+author: "Xuchunhui（徐春晖）"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+class: center, middle, inverse
+
+# Agenda 1: Disscusion
+
+---
+class:  middle
+
+
+```{r echo=TRUE}
+
+G1 <- c("徐文聪", "杜辉", "郭思坤", "陈心怡", "杜婧雯", "董宸", "姚瑶")
+G2 <- c("胡粲", "吴晴歌", "陈玉宁", "肖辅", "徐盛", "吴玄慧", "杨颖超")
+G3 <- c("关晓彤", "陶蕴华", "李颖", "王勇", "谢波", "魏华", "乌尼尔")
+G4 <- c("肖静", "王引梅", "汪菲菲", "宗鑫", "左紫薇", "万启慧","吴琦")
+G5 <- c("张景志", "姜瀛博", "谢永乐", "张朝霞", "汪丽华", "王丹洋", "黄鑫")
+G6 <- c("李春", "肖伊人", "黄梦涵", "苏碧俏", "田世龙", "夏显霖")
+G7 <- c("王俊杰", "肖礼万", "樊鲁玉", "王一洋", "武越" ,"韦彤")
+```
+
+---
+
+class:  center, middle
+
+# Homework Assign
+
+```{r echo=FALSE}
+
+(assign <- data.frame(homework = c("1", "2", "3", "4.1","4.2"), group = sample(1:7)[1:5]))
+
+```
+
+---
+
+class: center, middle, inverse
+
+# Agenda 2: Report
+
+---
+class: center, middle
+
+homowork-1
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[1])),1)
+```
+
+---
+class: middle
+
+homowork-1: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 1
+## 1.1
+a<-c(126,125,138,128,123,138,142,116,110,108,113,140)
+b<-c(160,175,177,170,175,153,168,159,160,162)
+## H0: 对照组和实验组两组样本方差相同
+## H1: 对照组和实验组两组样本方差不相同
+var.test(a,b)
+# P-value  > 0.05, 所以对照组和实验组方差相同。
+```
+
+---
+class: middle
+
+homowork-1: R-code
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 1
+## 1.2 
+## H0: 对照组和实验组两组抗凝血酶活力没差异
+## H1: 对照组和实验组两组抗凝血酶活力有差异
+t.test(a,b,var.equal = TRUE)
+
+# P-value<0.05,对照组和新药组病人的抗凝血酶活力有差异
+```
+
+---
+class: center, middle
+
+homowork-2
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[2])),1)
+```
+
+---
+class: middle
+
+homowork-2: R-code
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 2
+## 2.1
+X <- c(4.5,6.5,6,9.2,10,12,8.3)
+Y <- c(4,7.2,8,14,8.8,10,11.5)
+## H0: 两种测量方法的精度无差异
+## H1: 两种测量方法的精度有差异
+wilcox.test(X,Y,paired = TRUE,exact = FALSE)
+
+# 因为p>0.05,所以两种测量方法不存在差异
+```
+
+---
+class: center, middle
+
+homowork-3
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[3])),1)
+```
+
+---
+class: middle
+
+homowork-3: R-code
+```{r echo=TRUE, fig.height=5, fig.width=5, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 3
+## H0: 赔的中位数与前一年无差异
+## H1: 赔的中位数与前一年有差异
+insure <- c(4152,4579,5053,5112,5745,6250,7081,
+            9048,12095,14430,17220,20610,22836,48950,67200)
+wilcox.test(insure,mu = 7520,conf.int = 0.05)
+
+# 为p值=0.1354 >0.05, 故拒绝原假设, 认为2018年索赔的中位数与前一年没有变化
+
+```
+
+
+---
+class: center, middle
+
+homowork-4.1
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[5])),1)
+```
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 4
+## 4.1
+Data<-read.table("Data.txt")
+Data<-read.table("Data.txt",header = TRUE)
+p.value<-apply(Data,1,
+               function(x)t.test(x[1:10],x[11:20],paired = TRUE)$p.value)
+DEG.pair<-rownames(Data)[p.value<0.05]
+sum(p.value<0.05)
+names(p.value) = rownames(Data)
+names(sort(p.value)[1:10])
+
+```
+
+---
+class: middle
+
+homowork-4.2: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 4
+## 4.2
+p.bon<-p.adjust(p.value,'bonferroni')
+p.fdr<-p.adjust(p.value,'fdr')
+rownames(Data)[p.bon<0.05]
+rownames(Data)[p.fdr<0.05]
+
+```
+
+---
+class: middle
+
+Addditional Source
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 链接：https://pan.baidu.com/s/1sTc73uk5_ToWivILFtSTlg 
+# 提取码：kriu 
+
+```
+
+---
+class: inverse, center, middle
+
+# Thanks for supporting
