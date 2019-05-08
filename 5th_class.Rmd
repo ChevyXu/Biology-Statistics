@@ -1,0 +1,355 @@
+---
+title: "Bio-Statistics"
+subtitle: "Class fifth"
+author: "Xuchunhui（徐春晖）"
+date: "`r Sys.time()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+class: center, middle, inverse
+
+# Agenda 1: Disscusion
+
+---
+class:  middle
+
+
+```{r echo=TRUE}
+
+G1 <- c("徐文聪", "杜辉", "郭思坤", "陈心怡", "杜婧雯", "董宸", "姚瑶")
+G2 <- c("胡粲", "吴晴歌", "陈玉宁", "肖辅", "徐盛", "吴玄慧", "杨颖超")
+G3 <- c("关晓彤", "陶蕴华", "李颖", "王勇", "谢波", "魏华", "乌尼尔")
+G4 <- c("肖静", "王引梅", "汪菲菲", "宗鑫", "左紫薇", "万启慧","吴琦")
+G5 <- c("张景志", "姜瀛博", "谢永乐", "张朝霞", "汪丽华", "王丹洋", "黄鑫")
+G6 <- c("李春", "肖伊人", "黄梦涵", "苏碧俏", "田世龙", "夏显霖")
+G7 <- c("王俊杰", "肖礼万", "樊鲁玉", "王一洋", "武越" ,"韦彤")
+```
+
+---
+
+class:  center, middle
+
+# Homework Assign
+
+```{r echo=FALSE}
+
+(assign <- data.frame(homework = c("1", "2.1 & 2.2 & 2.3", "2.4 & 2.5", "3", "4.1", "4.2","4.3"), group = sample(1:7)))
+
+```
+
+---
+
+class: center, middle, inverse
+
+# Agenda 2: Report
+
+---
+class: center, middle
+
+homowork-1
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[1])),1)
+```
+
+---
+class: middle
+
+homowork-1: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 1
+## setwd("D:/Dropbox/Undergone/Statsitics/5th/")
+## H0: 种子1的产量满足正态分布
+## H1: 种子1的产量不满足正态分布
+data <- read.table(file = "第五次作业5.1-yield.txt", 
+                   header = T, sep = "\t", quote = "")
+data$seed <- as.factor(data$seed)
+for(i in 1:length(unique(data$seed))){ 
+  print(paste0("seed ", i, "'s p-value is"))
+  print(shapiro.test(data[data$seed == i,][,1])$p.value)
+}
+
+## 因为p值大于0.05，因此接受原假设，即认为种子123的产量满足正态分布
+```
+
+---
+class: middle
+
+homowork-1: R-code
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0：种子的品种不影响粮食产量
+## H1：至少一个种子的品种影响粮食产量
+aov <- aov(data = data, yield~seed)
+summary(aov)
+## 检验结果显示p值小于0.05, 因此拒绝原假设，即粮食产量受种子品种的影响
+
+
+```
+
+
+---
+class: middle
+
+homowork-1: R-code
+```{r echo=TRUE, fig.height=3.5, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+par(las=2)
+(tuk <- TukeyHSD(aov, "seed", conf.level = 0.95))
+plot(tuk) ## 种子2和其他种子相比产量有差异
+
+```
+
+---
+class: center, middle
+
+homowork-2.1 & 2.2 & 2.3
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[2])),1)
+```
+
+---
+class: middle
+
+homowork-2.1 & 2.2 & 2.3: R-code
+```{r echo=TRUE, fig.height=4, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+data <- read.table("第五次作业5.2-data.txt", header = T, quote = "", sep = "\t") 
+summary(data)
+boxplot(data)
+```
+
+
+---
+class: middle
+
+homowork-2.1 & 2.2 & 2.3: R-code
+```{r echo=TRUE, fig.height=4, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(ggplot2)
+data_me <- reshape2::melt(data = data)
+data_me$variable <- as.factor(data_me$variable)
+ggplot(data_me, mapping = aes(x = variable, 
+                              y = value, fill = variable)) +
+  geom_boxplot(show.legend = F, notch = F) +
+  theme_bw()
+
+## 2.3: 不合理，会增大犯一类错误的机会
+```
+
+---
+class: center, middle
+
+homowork-2.4 & 2.5
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[3])),1)
+```
+
+---
+class: middle
+
+homowork-2.4 & 2.5: R-code
+```{r echo=TRUE, fig.height=4, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+for(i in 1:ncol(data)) {
+  print(paste0("Group-", colnames(data)[i], "'s p-value is"))
+  print(shapiro.test(data[,i])$p.value)
+}
+
+bartlett.test(x = data_me$value, g = data_me$variable)
+```
+
+---
+class: middle
+
+homowork-2.4 & 2.5: R-code
+
+```{r echo=TRUE, fig.height=4, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+aov <- aov(value~variable,data = data_me)
+summary(aov)
+(tuk <- TukeyHSD(aov, "variable", conf.level = 0.95))
+```
+
+---
+class: middle
+
+homowork-2.4 & 2.5: R-code
+
+```{r echo=TRUE, fig.height=4, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+pairwise.t.test(data_me$value, data_me$variable, 
+                p.adjust.method = "bonferroni", pool.sd = T)
+```
+
+
+---
+class: center, middle
+
+homowork-3
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[4])),1)
+```
+
+---
+class: middle
+
+homowork-3: R-code
+
+```{r echo=TRUE, fig.height=5, fig.width=5, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+data <- data.frame(value = c(40, 10, 35, 25, 20, 15, 35, 15, -5, 30, 25, 70, 65, 45, 50, 50, 20, 45, 55, 20, 15, 80, -10, 105, 75, 10, 60, 45, 60, 30,60, 30, 100, 85, 20, 55, 45, 30, 77, 105),
+                   variable = as.factor(c(rep("med1", 15), rep("med2", 15), rep("med3", 10))))
+
+for(i in 1:length(unique(data$variable))) {
+  print(paste0("Group-", levels(data$variable)[i], "'s p-value is"))
+  print(shapiro.test(data[data$variable == levels(data$variable)[i],1])$p.value)}
+bartlett.test(x = data$value, g = data$variable)
+
+```
+
+
+---
+class: middle
+
+homowork-3: R-code
+
+```{r echo=TRUE, fig.height=5, fig.width=5, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+aov <- aov(value~variable,data = data)
+summary(aov)
+
+(tuk <- TukeyHSD(aov, "variable", conf.level = 0.95))
+
+```
+
+
+---
+class: center, middle
+
+homowork-4.1
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[5])),1)
+```
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+data <- data.frame(weight = c(282.1, 264.2, 274.2, 276.4, 283.7, 288, 274.3, 278.4, 293.5, 271.5,
+                              296.7, 318, 295.3, 292.8, 304.5, 305.9, 312.3, 311.4, 307.6, 292.7,
+                              300.1, 307.5, 294.2, 312, 300.2, 292.6, 302, 306.9, 313.1, 312.4,
+                              284.5, 263.7, 292.3, 270.33, 281.3, 286.9, 271.2, 275.6, 289.4, 289.8,
+                              296.6, 323.9, 296.5, 298.1, 310, 312.5, 317.6, 305.5, 305.8, 295.4,
+                              304, 312.4, 297.8, 318.4, 302.4, 295.3, 305.5, 309.9, 319.2, 320.2),
+                   temp = as.factor(c(rep("A1", 10), rep("A2", 10), rep("A3", 10), rep("A1", 10), rep("A2", 10), rep("A3", 10))),
+                   Group = as.factor(c(rep("B1", 30), rep("B2", 30))))
+
+```
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+for(i in 1:length(unique(data$temp))) {
+  print(paste0("Group-", levels(data$temp)[i], "'s p-value is"))
+  print(shapiro.test(data[data$temp == levels(data$temp)[i],1])$p.value)}
+
+for(i in 1:length(unique(data$Group))) {
+  print(paste0("Group-", levels(data$Group)[i], "'s p-value is"))
+  print(shapiro.test(data[data$Group == levels(data$Group)[i],1])$p.value)}
+```
+
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+bartlett.test(x = data$weight, g = data$temp)
+bartlett.test(x = data$weight, g = data$Group)
+```
+
+---
+class: center, middle
+
+homowork-4.2
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[6])),1)
+```
+---
+class: middle
+
+homowork-4.2: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+## H0:... H1:...
+aov <- aov(formula = weight ~ temp * Group, data = data)
+summary(aov)
+```
+
+---
+class: center, middle
+
+homowork-4.3
+
+```{r echo=FALSE}
+sample(get(paste0("G", assign$group[7])),1)
+```
+---
+class: middle
+
+homowork-4.3: R-code
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+tuk <- TukeyHSD(aov)
+tuk$`temp:Group`
+
+```
+
+---
+class: middle
+
+homowork-4.3: R-code
+
+```{r echo=TRUE, fig.height=4, fig.width=6, message=FALSE, warning=FALSE, paged.print=FALSE}
+tuk_A2B1 <- as.data.frame(tuk$`temp:Group`)[grep("A2:B1", 
+                                                 rownames(as.data.frame(tuk$`temp:Group`))),]
+rownames(tuk_A2B1[tuk_A2B1$`p adj` < 0.05, ])
+## A1B1，A1B2组和A2B1组有显著差异
+```
+
+
+---
+class: middle
+
+Addditional Source
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
+# 链接：https://pan.baidu.com/s/1x7wioCS5i4b4rWYJHfBaDw 
+# 提取码：hf7f 
+```
+
+---
+class: inverse, center, middle
+
+# Thanks for supporting

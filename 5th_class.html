@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Bio-Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Xuchunhui（徐春晖）" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Bio-Statistics
+## Class fifth
+### Xuchunhui（徐春晖）
+### 2019-05-08 14:14:59
+
+---
+
+
+
+
+class: center, middle, inverse
+
+# Agenda 1: Disscusion
+
+---
+class:  middle
+
+
+
+```r
+G1 &lt;- c("徐文聪", "杜辉", "郭思坤", "陈心怡", "杜婧雯", "董宸", "姚瑶")
+G2 &lt;- c("胡粲", "吴晴歌", "陈玉宁", "肖辅", "徐盛", "吴玄慧", "杨颖超")
+G3 &lt;- c("关晓彤", "陶蕴华", "李颖", "王勇", "谢波", "魏华", "乌尼尔")
+G4 &lt;- c("肖静", "王引梅", "汪菲菲", "宗鑫", "左紫薇", "万启慧","吴琦")
+G5 &lt;- c("张景志", "姜瀛博", "谢永乐", "张朝霞", "汪丽华", "王丹洋", "黄鑫")
+G6 &lt;- c("李春", "肖伊人", "黄梦涵", "苏碧俏", "田世龙", "夏显霖")
+G7 &lt;- c("王俊杰", "肖礼万", "樊鲁玉", "王一洋", "武越" ,"韦彤")
+```
+
+---
+
+class:  center, middle
+
+# Homework Assign
+
+
+```
+##          homework group
+## 1               1     3
+## 2 2.1 &amp; 2.2 &amp; 2.3     7
+## 3       2.4 &amp; 2.5     5
+## 4               3     2
+## 5             4.1     4
+## 6             4.2     6
+## 7             4.3     1
+```
+
+---
+
+class: center, middle, inverse
+
+# Agenda 2: Report
+
+---
+class: center, middle
+
+homowork-1
+
+
+```
+## [1] "王勇"
+```
+
+---
+class: middle
+
+homowork-1: R-code
+
+
+```r
+# 1
+## setwd("D:/Dropbox/Undergone/Statsitics/5th/")
+## H0: 种子1的产量满足正态分布
+## H1: 种子1的产量不满足正态分布
+data &lt;- read.table(file = "第五次作业5.1-yield.txt", 
+                   header = T, sep = "\t", quote = "")
+data$seed &lt;- as.factor(data$seed)
+for(i in 1:length(unique(data$seed))){ 
+  print(paste0("seed ", i, "'s p-value is"))
+  print(shapiro.test(data[data$seed == i,][,1])$p.value)
+}
+```
+
+```
+## [1] "seed 1's p-value is"
+## [1] 0.5480206
+## [1] "seed 2's p-value is"
+## [1] 0.4667409
+## [1] "seed 3's p-value is"
+## [1] 0.9561355
+```
+
+```r
+## 因为p值大于0.05，因此接受原假设，即认为种子123的产量满足正态分布
+```
+
+---
+class: middle
+
+homowork-1: R-code
+
+```r
+## H0：种子的品种不影响粮食产量
+## H1：至少一个种子的品种影响粮食产量
+aov &lt;- aov(data = data, yield~seed)
+summary(aov)
+```
+
+```
+##             Df Sum Sq Mean Sq F value   Pr(&gt;F)
+## seed         2   4364  2182.2   10.04 0.000586
+## Residuals   26   5649   217.3
+```
+
+```r
+## 检验结果显示p值小于0.05, 因此拒绝原假设，即粮食产量受种子品种的影响
+```
+
+
+---
+class: middle
+
+homowork-1: R-code
+
+```r
+par(las=2)
+(tuk &lt;- TukeyHSD(aov, "seed", conf.level = 0.95))
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = yield ~ seed, data = data)
+## 
+## $seed
+##          diff        lwr       upr     p adj
+## 2-1 -25.32727 -41.330375 -9.324171 0.0015630
+## 3-1  -0.10000 -17.473293 17.273293 0.9998872
+## 3-2  25.22727   8.208575 42.245971 0.0029482
+```
+
+```r
+plot(tuk) ## 种子2和其他种子相比产量有差异
+```
+
+![](5th_class_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+---
+class: center, middle
+
+homowork-2.1 &amp; 2.2 &amp; 2.3
+
+
+```
+## [1] "肖礼万"
+```
+
+---
+class: middle
+
+homowork-2.1 &amp; 2.2 &amp; 2.3: R-code
+
+```r
+data &lt;- read.table("第五次作业5.2-data.txt", header = T, quote = "", sep = "\t") 
+summary(data)
+```
+
+```
+##     control           low            middle           high      
+##  Min.   :17.22   Min.   :18.64   Min.   :22.29   Min.   :24.07  
+##  1st Qu.:19.35   1st Qu.:20.39   1st Qu.:25.05   1st Qu.:29.21  
+##  Median :22.60   Median :22.69   Median :28.67   Median :32.63  
+##  Mean   :21.98   Mean   :23.23   Mean   :28.13   Mean   :32.84  
+##  3rd Qu.:23.96   3rd Qu.:25.69   3rd Qu.:29.95   3rd Qu.:36.14  
+##  Max.   :27.21   Max.   :29.67   Max.   :35.12   Max.   :39.76
+```
+
+```r
+boxplot(data)
+```
+
+![](5th_class_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+---
+class: middle
+
+homowork-2.1 &amp; 2.2 &amp; 2.3: R-code
+
+```r
+library(ggplot2)
+data_me &lt;- reshape2::melt(data = data)
+data_me$variable &lt;- as.factor(data_me$variable)
+ggplot(data_me, mapping = aes(x = variable, 
+                              y = value, fill = variable)) +
+  geom_boxplot(show.legend = F, notch = F) +
+  theme_bw()
+```
+
+![](5th_class_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+```r
+## 2.3: 不合理，会增大犯一类错误的机会
+```
+
+---
+class: center, middle
+
+homowork-2.4 &amp; 2.5
+
+
+```
+## [1] "王丹洋"
+```
+
+---
+class: middle
+
+homowork-2.4 &amp; 2.5: R-code
+
+```r
+## H0:... H1:...
+for(i in 1:ncol(data)) {
+  print(paste0("Group-", colnames(data)[i], "'s p-value is"))
+  print(shapiro.test(data[,i])$p.value)
+}
+```
+
+```
+## [1] "Group-control's p-value is"
+## [1] 0.5245499
+## [1] "Group-low's p-value is"
+## [1] 0.3671389
+## [1] "Group-middle's p-value is"
+## [1] 0.4753578
+## [1] "Group-high's p-value is"
+## [1] 0.6430541
+```
+
+```r
+bartlett.test(x = data_me$value, g = data_me$variable)
+```
+
+```
+## 
+## 	Bartlett test of homogeneity of variances
+## 
+## data:  data_me$value and data_me$variable
+## Bartlett's K-squared = 2.1206, df = 3, p-value = 0.5478
+```
+
+---
+class: middle
+
+homowork-2.4 &amp; 2.5: R-code
+
+
+```r
+## H0:... H1:...
+aov &lt;- aov(value~variable,data = data_me)
+summary(aov)
+```
+
+```
+##             Df Sum Sq Mean Sq F value   Pr(&gt;F)
+## variable     3 1109.1   369.7   24.46 3.03e-10
+## Residuals   56  846.5    15.1
+```
+
+```r
+(tuk &lt;- TukeyHSD(aov, "variable", conf.level = 0.95))
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = value ~ variable, data = data_me)
+## 
+## $variable
+##                     diff        lwr       upr     p adj
+## low-control     1.254667 -2.5044218  5.013755 0.8132480
+## middle-control  6.151333  2.3922449  9.910422 0.0003513
+## high-control   10.860000  7.1009116 14.619088 0.0000000
+## middle-low      4.896667  1.1375782  8.655755 0.0057640
+## high-low        9.605333  5.8462449 13.364422 0.0000001
+## high-middle     4.708667  0.9495782  8.467755 0.0084746
+```
+
+---
+class: middle
+
+homowork-2.4 &amp; 2.5: R-code
+
+
+```r
+## H0:... H1:...
+pairwise.t.test(data_me$value, data_me$variable, 
+                p.adjust.method = "bonferroni", pool.sd = T)
+```
+
+```
+## 
+## 	Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  data_me$value and data_me$variable 
+## 
+##        control low     middle 
+## low    1.00000 -       -      
+## middle 0.00037 0.00645 -      
+## high   1.8e-09 5.1e-08 0.00962
+## 
+## P value adjustment method: bonferroni
+```
+
+
+---
+class: center, middle
+
+homowork-3
+
+
+```
+## [1] "胡粲"
+```
+
+---
+class: middle
+
+homowork-3: R-code
+
+
+```r
+## H0:... H1:...
+data &lt;- data.frame(value = c(40, 10, 35, 25, 20, 15, 35, 15, -5, 30, 25, 70, 65, 45, 50, 50, 20, 45, 55, 20, 15, 80, -10, 105, 75, 10, 60, 45, 60, 30,60, 30, 100, 85, 20, 55, 45, 30, 77, 105),
+                   variable = as.factor(c(rep("med1", 15), rep("med2", 15), rep("med3", 10))))
+
+for(i in 1:length(unique(data$variable))) {
+  print(paste0("Group-", levels(data$variable)[i], "'s p-value is"))
+  print(shapiro.test(data[data$variable == levels(data$variable)[i],1])$p.value)}
+```
+
+```
+## [1] "Group-med1's p-value is"
+## [1] 0.9522585
+## [1] "Group-med2's p-value is"
+## [1] 0.9878477
+## [1] "Group-med3's p-value is"
+## [1] 0.5536185
+```
+
+```r
+bartlett.test(x = data$value, g = data$variable)
+```
+
+```
+## 
+## 	Bartlett test of homogeneity of variances
+## 
+## data:  data$value and data$variable
+## Bartlett's K-squared = 2.4482, df = 2, p-value = 0.294
+```
+
+
+---
+class: middle
+
+homowork-3: R-code
+
+
+```r
+## H0:... H1:...
+aov &lt;- aov(value~variable,data = data)
+summary(aov)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(&gt;F)
+## variable     2   5062  2531.2   3.485 0.0411
+## Residuals   37  26877   726.4
+```
+
+```r
+(tuk &lt;- TukeyHSD(aov, "variable", conf.level = 0.95))
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = value ~ variable, data = data)
+## 
+## $variable
+##               diff        lwr      upr     p adj
+## med2-med1 12.33333 -11.694604 36.36127 0.4302024
+## med3-med1 29.03333   2.169283 55.89738 0.0317315
+## med3-med2 16.70000 -10.164050 43.56405 0.2944100
+```
+
+
+---
+class: center, middle
+
+homowork-4.1
+
+
+```
+## [1] "肖静"
+```
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+
+```r
+data &lt;- data.frame(weight = c(282.1, 264.2, 274.2, 276.4, 283.7, 288, 274.3, 278.4, 293.5, 271.5,
+                              296.7, 318, 295.3, 292.8, 304.5, 305.9, 312.3, 311.4, 307.6, 292.7,
+                              300.1, 307.5, 294.2, 312, 300.2, 292.6, 302, 306.9, 313.1, 312.4,
+                              284.5, 263.7, 292.3, 270.33, 281.3, 286.9, 271.2, 275.6, 289.4, 289.8,
+                              296.6, 323.9, 296.5, 298.1, 310, 312.5, 317.6, 305.5, 305.8, 295.4,
+                              304, 312.4, 297.8, 318.4, 302.4, 295.3, 305.5, 309.9, 319.2, 320.2),
+                   temp = as.factor(c(rep("A1", 10), rep("A2", 10), rep("A3", 10), rep("A1", 10), rep("A2", 10), rep("A3", 10))),
+                   Group = as.factor(c(rep("B1", 30), rep("B2", 30))))
+```
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+
+```r
+## H0:... H1:...
+for(i in 1:length(unique(data$temp))) {
+  print(paste0("Group-", levels(data$temp)[i], "'s p-value is"))
+  print(shapiro.test(data[data$temp == levels(data$temp)[i],1])$p.value)}
+```
+
+```
+## [1] "Group-A1's p-value is"
+## [1] 0.5668901
+## [1] "Group-A2's p-value is"
+## [1] 0.1988686
+## [1] "Group-A3's p-value is"
+## [1] 0.6230746
+```
+
+```r
+for(i in 1:length(unique(data$Group))) {
+  print(paste0("Group-", levels(data$Group)[i], "'s p-value is"))
+  print(shapiro.test(data[data$Group == levels(data$Group)[i],1])$p.value)}
+```
+
+```
+## [1] "Group-B1's p-value is"
+## [1] 0.1676491
+## [1] "Group-B2's p-value is"
+## [1] 0.4856915
+```
+
+
+---
+class: middle
+
+homowork-4.1: R-code
+
+
+```r
+## H0:... H1:...
+bartlett.test(x = data$weight, g = data$temp)
+```
+
+```
+## 
+## 	Bartlett test of homogeneity of variances
+## 
+## data:  data$weight and data$temp
+## Bartlett's K-squared = 0.2031, df = 2, p-value = 0.9034
+```
+
+```r
+bartlett.test(x = data$weight, g = data$Group)
+```
+
+```
+## 
+## 	Bartlett test of homogeneity of variances
+## 
+## data:  data$weight and data$Group
+## Bartlett's K-squared = 0.21179, df = 1, p-value = 0.6454
+```
+
+---
+class: center, middle
+
+homowork-4.2
+
+
+```
+## [1] "黄梦涵"
+```
+---
+class: middle
+
+homowork-4.2: R-code
+
+
+```r
+## H0:... H1:...
+aov &lt;- aov(formula = weight ~ temp * Group, data = data)
+summary(aov)
+```
+
+```
+##             Df Sum Sq Mean Sq F value   Pr(&gt;F)
+## temp         2   9076    4538  56.835 5.18e-14
+## Group        1    128     128   1.599    0.211
+## temp:Group   2     18       9   0.110    0.896
+## Residuals   54   4311      80
+```
+
+---
+class: center, middle
+
+homowork-4.3
+
+
+```
+## [1] "姚瑶"
+```
+---
+class: middle
+
+homowork-4.3: R-code
+
+
+```r
+tuk &lt;- TukeyHSD(aov)
+tuk$`temp:Group`
+```
+
+```
+##                diff        lwr       upr        p adj
+## A2:B1-A1:B1  25.090  13.283736  36.89626 8.897632e-07
+## A3:B1-A1:B1  25.470  13.663736  37.27626 6.257132e-07
+## A1:B2-A1:B1   1.873  -9.933264  13.67926 9.970291e-01
+## A2:B2-A1:B1  27.560  15.753736  39.36626 8.944290e-08
+## A3:B2-A1:B1  29.880  18.073736  41.68626 1.025331e-08
+## A3:B1-A2:B1   0.380 -11.426264  12.18626 9.999988e-01
+## A1:B2-A2:B1 -23.217 -35.023264 -11.41074 4.984232e-06
+## A2:B2-A2:B1   2.470  -9.336264  14.27626 9.892321e-01
+## A3:B2-A2:B1   4.790  -7.016264  16.59626 8.355588e-01
+## A1:B2-A3:B1 -23.597 -35.403264 -11.79074 3.520677e-06
+## A2:B2-A3:B1   2.090  -9.716264  13.89626 9.950218e-01
+## A3:B2-A3:B1   4.410  -7.396264  16.21626 8.777739e-01
+## A2:B2-A1:B2  25.687  13.880736  37.49326 5.116087e-07
+## A3:B2-A1:B2  28.007  16.200736  39.81326 5.893111e-08
+## A3:B2-A2:B2   2.320  -9.486264  14.12626 9.919177e-01
+```
+
+---
+class: middle
+
+homowork-4.3: R-code
+
+
+```r
+tuk_A2B1 &lt;- as.data.frame(tuk$`temp:Group`)[grep("A2:B1", 
+                                                 rownames(as.data.frame(tuk$`temp:Group`))),]
+rownames(tuk_A2B1[tuk_A2B1$`p adj` &lt; 0.05, ])
+```
+
+```
+## [1] "A2:B1-A1:B1" "A1:B2-A2:B1"
+```
+
+```r
+## A1B1，A1B2组和A2B1组有显著差异
+```
+
+
+---
+class: middle
+
+Addditional Source
+
+
+```r
+# 链接：https://pan.baidu.com/s/1x7wioCS5i4b4rWYJHfBaDw 
+# 提取码：hf7f 
+```
+
+---
+class: inverse, center, middle
+
+# Thanks for supporting
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
