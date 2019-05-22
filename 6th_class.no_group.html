@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Bio-Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Xuchunhui（徐春晖）" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Bio-Statistics
+## 6th_Class
+### Xuchunhui（徐春晖）
+### 2019-05-22 12:43:22
+
+---
+
+class: middle, center
+## Regression Analysis
+![Regression](regression-analysis-thumb.jpg)
+---
+
+
+
+class: center, middle, inverse
+
+# Agenda 1: Disscusion
+
+---
+class: middle
+
+# How to use lm()
+
+![lm_use](lm-1.PNG)
+
+---
+class: middle
+
+# How to use lm()
+
+![lm_use](lm-2.PNG)
+
+---
+class:  middle
+
+
+
+```r
+G1 &lt;- c("徐文聪", "杜辉", "郭思坤", "陈心怡", "杜婧雯", "董宸", "姚瑶")
+G2 &lt;- c("胡粲", "吴晴歌", "陈玉宁", "肖辅", "徐盛", "吴玄慧", "杨颖超")
+G3 &lt;- c("关晓彤", "陶蕴华", "李颖", "王勇", "谢波", "魏华", "乌尼尔")
+G4 &lt;- c("肖静", "王引梅", "汪菲菲", "宗鑫", "左紫薇", "万启慧","吴琦")
+G5 &lt;- c("张景志", "姜瀛博", "谢永乐", "张朝霞", "汪丽华", "王丹洋", "黄鑫")
+G6 &lt;- c("李春", "肖伊人", "黄梦涵", "苏碧俏", "田世龙", "夏显霖")
+G7 &lt;- c("王俊杰", "肖礼万", "樊鲁玉", "王一洋", "武越" ,"韦彤")
+```
+
+---
+
+class:  center, middle
+
+# Homework Assign
+
+
+
+---
+class: center, middle, inverse
+
+# Agenda 2: Report
+
+---
+class: center, middle
+homowork-1
+![vital capacity](https://lunginstitute.com/wp-content/uploads/2016/03/SoCanLungFunctionBeImproved.jpg)
+
+
+
+---
+class: middle
+
+
+```r
+# homowork-1: R-code
+data_1 &lt;- read.table("homework-6.1-data.txt", header = F, 
+                     col.names = c("Number", "Height", "Weight", "Lung"))
+fit_1 &lt;- lm(Lung ~ Height + Weight, data = data_1)
+summary(fit_1)
+```
+
+```
+## 
+## Call:
+## lm(formula = Lung ~ Height + Weight, data = data_1)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.54117 -0.25524 -0.00266  0.22039  0.55425 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -0.565664   1.240127  -0.456  0.65208
+## Height       0.005017   0.010575   0.474  0.63920
+## Weight       0.054061   0.015984   3.382  0.00228
+## 
+## Residual standard error: 0.3137 on 26 degrees of freedom
+## Multiple R-squared:  0.546,	Adjusted R-squared:  0.511 
+## F-statistic: 15.63 on 2 and 26 DF,  p-value: 3.485e-05
+```
+
+```r
+# y=-0.565664+0.005017x_1+0.054061x_2
+```
+
+---
+class: middle
+
+homowork-1: R-code
+
+
+```r
+# homowork-1: R-code
+# library(car)
+# scatterplotMatrix(data_1[2:4])
+par(mfrow= c(2,2))
+plot(fit_1)
+```
+
+![](6th_class.no_group_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+class: center, middle
+
+homowork-2
+
+![Growth](fa967463b1292d2fc83ea68676e2b177--farm-humor-life-humor.jpg)
+
+
+---
+class: middle
+
+
+```r
+# homowork-2: R-code
+data_2 &lt;- read.table("homework-6.2-data.txt", header = T)
+fit_2 &lt;- lm(y~x1+ x2, data = data_2)
+summary(fit_2)
+```
+
+```
+## 
+## Call:
+## lm(formula = y ~ x1 + x2, data = data_2)
+## 
+## Residuals:
+##        1        2        3        4        5        6        7 
+## -275.101   90.464  216.483  140.280  150.676 -316.599   -6.203 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)   -0.591    505.004  -0.001   0.9991
+## x1            22.387      9.601   2.332   0.0801
+## x2           327.672     98.798   3.317   0.0295
+## 
+## Residual standard error: 261.4 on 4 degrees of freedom
+## Multiple R-squared:  0.9913,	Adjusted R-squared:  0.987 
+## F-statistic: 228.4 on 2 and 4 DF,  p-value: 7.532e-05
+```
+
+```r
+# y=-0.591+22.387x_1+327.672x_2
+```
+
+---
+class: middle
+
+
+```r
+# homowork-2: R-code
+par(mfrow= c(2,2))
+plot(fit_2)
+```
+
+![](6th_class.no_group_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+```r
+confint(fit_2, level=0.95)
+```
+
+```
+##                    2.5 %     97.5 %
+## (Intercept) -1402.707516 1401.52552
+## x1             -4.268921   49.04184
+## x2             53.364699  601.97873
+```
+
+---
+class: center, middle
+
+homowork-3
+
+![wine](https://www.pourrichardswine.com/sites/default/files/styles/contentimage/public/Nosing%20wine%20cartoon.jpg?itok=1xCFZfI5)
+
+
+
+---
+class: middle
+
+
+```r
+# homowork-3.1: R-code
+data_3 &lt;- read.table("homework-6.3-winequality-red.csv", sep = ",", header = T)
+head(data_3, n=2)
+```
+
+```
+##   fixed.acidity volatile.acidity citric.acid residual.sugar chlorides
+## 1           7.4             0.70           0            1.9     0.076
+## 2           7.8             0.88           0            2.6     0.098
+##   free.sulfur.dioxide total.sulfur.dioxide density   pH sulphates alcohol
+## 1                  11                   34  0.9978 3.51      0.56     9.4
+## 2                  25                   67  0.9968 3.20      0.68     9.8
+##   quality
+## 1       5
+## 2       5
+```
+
+```r
+summary(data_3)[,1:4]
+```
+
+```
+##  fixed.acidity   volatile.acidity  citric.acid    residual.sugar  
+##  Min.   : 4.60   Min.   :0.1200   Min.   :0.000   Min.   : 0.900  
+##  1st Qu.: 7.10   1st Qu.:0.3900   1st Qu.:0.090   1st Qu.: 1.900  
+##  Median : 7.90   Median :0.5200   Median :0.260   Median : 2.200  
+##  Mean   : 8.32   Mean   :0.5278   Mean   :0.271   Mean   : 2.539  
+##  3rd Qu.: 9.20   3rd Qu.:0.6400   3rd Qu.:0.420   3rd Qu.: 2.600  
+##  Max.   :15.90   Max.   :1.5800   Max.   :1.000   Max.   :15.500
+```
+
+
+---
+class: middle
+
+
+```r
+# homowork-3.2: R-code
+par(mfrow=c(1,2))
+hist(data_3$fixed.acidity, 
+     main="the distribution of fixed acidity",xlab="volatile.acidity")
+plot(data_3$quality,data_3$volatile.acidity,
+     main="quality vs volatile acidity",xlab="quality",ylab="volatile.acidity")
+```
+
+![](6th_class.no_group_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+class: middle
+
+
+```r
+# homowork-3.3 &amp; 3.4: R-code
+apply(data_3,2,function(x)cor(x,data_3$quality))
+```
+
+```
+##        fixed.acidity     volatile.acidity          citric.acid 
+##           0.12405165          -0.39055778           0.22637251 
+##       residual.sugar            chlorides  free.sulfur.dioxide 
+##           0.01373164          -0.12890656          -0.05065606 
+## total.sulfur.dioxide              density                   pH 
+##          -0.18510029          -0.17491923          -0.05773139 
+##            sulphates              alcohol              quality 
+##           0.25139708           0.47616632           1.00000000
+```
+
+```r
+(shapiro.test(data_3$alcohol))$p.value
+```
+
+```
+## [1] 6.644057e-27
+```
+
+```r
+(shapiro.test(data_3$quality))$p.value
+```
+
+```
+## [1] 9.515085e-36
+```
+
+```r
+(kruskal.test(data_3$alcohol ~ data_3$quality))$p.value
+```
+
+```
+## [1] 6.374169e-87
+```
+
+---
+class: middle
+
+
+```r
+# homowork-3.5: R-code
+fit_3 &lt;- lm(quality ~ ., data=data_3)
+summary(fit_3)
+```
+
+```
+## 
+## Call:
+## lm(formula = quality ~ ., data = data_3)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.68911 -0.36652 -0.04699  0.45202  2.02498 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)           2.197e+01  2.119e+01   1.036   0.3002
+## fixed.acidity         2.499e-02  2.595e-02   0.963   0.3357
+## volatile.acidity     -1.084e+00  1.211e-01  -8.948  &lt; 2e-16
+## citric.acid          -1.826e-01  1.472e-01  -1.240   0.2150
+## residual.sugar        1.633e-02  1.500e-02   1.089   0.2765
+## chlorides            -1.874e+00  4.193e-01  -4.470 8.37e-06
+## free.sulfur.dioxide   4.361e-03  2.171e-03   2.009   0.0447
+## total.sulfur.dioxide -3.265e-03  7.287e-04  -4.480 8.00e-06
+## density              -1.788e+01  2.163e+01  -0.827   0.4086
+## pH                   -4.137e-01  1.916e-01  -2.159   0.0310
+## sulphates             9.163e-01  1.143e-01   8.014 2.13e-15
+## alcohol               2.762e-01  2.648e-02  10.429  &lt; 2e-16
+## 
+## Residual standard error: 0.648 on 1587 degrees of freedom
+## Multiple R-squared:  0.3606,	Adjusted R-squared:  0.3561 
+## F-statistic: 81.35 on 11 and 1587 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+class: center, middle
+
+homowork-4
+
+![](http://clipart-library.com/images/8i65GBdBT.png)
+
+
+
+---
+class: middle
+
+
+```r
+# homowork-4.1: R-code
+data_4 &lt;- read.table("homework-6.4-data.txt", sep = ",", header = T)
+fit_4 &lt;- glm(y~ Income + Age, data = data_4, family = binomial())
+summary(fit_4)
+```
+
+```
+## 
+## Call:
+## glm(formula = y ~ Income + Age, family = binomial(), data = data_4)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.5635  -0.8045  -0.1397   0.9535   1.7915  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -7.047e+00  4.674e+00  -1.508    0.132
+## Income       7.382e-05  6.371e-05   1.159    0.247
+## Age          9.879e-01  5.274e-01   1.873    0.061
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 27.726  on 19  degrees of freedom
+## Residual deviance: 21.082  on 17  degrees of freedom
+## AIC: 27.082
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+---
+class: middle
+
+
+```r
+# homowork-4.2 &amp; 4.3: R-code
+### 4.2
+coef(fit_4)
+```
+
+```
+##   (Intercept)        Income           Age 
+## -7.047061e+00  7.381679e-05  9.878861e-01
+```
+
+```r
+### 4.3
+predict(fit_4, data.frame(Income = 45000, Age = 5), type = "response")
+```
+
+```
+##         1 
+## 0.7710279
+```
+
+```r
+### odds= expa(0.597610-1.496084x_1-0.001595x_2+0.315865x_3)
+```
+
+---
+class: center, middle
+
+homowork-5
+
+![](https://m.media-amazon.com/images/M/MV5BYzU4NTU1YWUtNDkwNC00NGViLWFmMmUtY2Q1NmVkZDUwNjIyXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_.jpg)
+
+
+
+
+---
+class: middle
+
+
+```r
+# homowork-5.1: R-code
+data_5 &lt;- read.table("homework-6.5-Drivers.csv", sep = ",", header = T)
+fit_5 &lt;- glm(y ~ x1 + x2 + x3, data = data_5, family=binomial())
+(summary(fit_5))$coefficients
+```
+
+```
+##                 Estimate Std. Error     z value   Pr(&gt;|z|)
+## (Intercept)  0.597609952 0.89483074  0.66784692 0.50423131
+## x1          -1.496083919 0.70486126 -2.12252254 0.03379388
+## x2          -0.001595183 0.01675828 -0.09518775 0.92416570
+## x3           0.315864768 0.70109346  0.45053162 0.65232716
+```
+
+```r
+### odds=exp(0.597610-1.496084x_1-0.001595x_2+0.315865x_3)
+```
+
+---
+class: middle
+
+
+```r
+# homowork-5.2: R-code
+fit_5_x1 &lt;- glm(y ~ x1 , data = data_5, family=binomial())
+summary(fit_5_x1)
+```
+
+```
+## 
+## Call:
+## glm(formula = y ~ x1, family = binomial(), data = data_5)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4490  -0.8782  -0.8782   0.9282   1.5096  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)   0.6190     0.4688   1.320   0.1867
+## x1           -1.3728     0.6353  -2.161   0.0307
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 62.183  on 44  degrees of freedom
+## Residual deviance: 57.241  on 43  degrees of freedom
+## AIC: 61.241
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+```r
+### p=(exp(0.6190-1.3728x_1))/(1+expa(0.6190-1.3728x_1))
+```
+
+---
+class: middle
+
+
+```r
+# homowork-5.3: R-code
+predict(fit_5_x1, data.frame(x1 = c(0, 1)), type = "response")
+```
+
+```
+##    1    2 
+## 0.65 0.32
+```
+
+---
+class: center, middle
+
+homowork-6.1 &amp; 6.2 &amp; 6.3
+
+![](https://media0.giphy.com/media/emIVSAPM4th6M/giphy.gif)
+
+
+
+---
+class: middle
+
+
+```r
+# homowork-6.1: R-code
+data_6 &lt;- read.table("homework-6.6-data.csv", sep = ",", header = T)
+### 6.1
+data_6$diagnosis[data_6$diagnosis == "M"] &lt;- 1
+data_6$diagnosis[data_6$diagnosis == "B"] &lt;- 0
+data_6$diagnosis &lt;- factor(data_6$diagnosis, levels = c(0, 1), labels = c("B", "M"))
+fit_6_1 &lt;- glm(diagnosis ~ ., data = data_6[, c(2:12)], family = binomial())
+(summary(fit_6_1))$coefficients
+```
+
+```
+##                            Estimate  Std. Error     z value     Pr(&gt;|z|)
+## (Intercept)             -7.35951761 12.85258816 -0.57260977 5.669089e-01
+## radius_mean             -2.04930490  3.71588038 -0.55149916 5.812915e-01
+## texture_mean             0.38473434  0.06453683  5.96146954 2.499795e-09
+## perimeter_mean          -0.07151042  0.50516483 -0.14155858 8.874287e-01
+## area_mean                0.03979620  0.01673960  2.37736810 1.743668e-02
+## smoothness_mean         76.43227376 31.95491728  2.39187832 1.676240e-02
+## compactness_mean        -1.46242225 20.34249490 -0.07189001 9.426894e-01
+## concavity_mean           8.46869976  8.12003433  1.04293891 2.969766e-01
+## concave.points_mean     66.82175685 28.52909909  2.34223158 1.916882e-02
+## symmetry_mean           16.27824232 10.63058563  1.53126487 1.257039e-01
+## fractal_dimension_mean -68.33702689 85.55665739 -0.79873418 4.244446e-01
+```
+
+---
+class: middle
+
+
+```r
+# homowork-6.2 &amp; 6.3: R-code
+### 6.2
+fit_6_2 &lt;- glm(diagnosis ~ ., data = data_6[, c('diagnosis' ,'texture_mean','area_mean','smoothness_mean','concave.points_mean')], family = binomial())
+(summary(fit_6_2))$coefficients
+```
+
+```
+##                         Estimate   Std. Error   z value     Pr(&gt;|z|)
+## (Intercept)         -23.67781565  3.882773885 -6.098170 1.072895e-09
+## texture_mean          0.36268748  0.060544319  5.990446 2.092663e-09
+## area_mean             0.01034181  0.002002183  5.165266 2.400976e-07
+## smoothness_mean      59.47130438 25.965153045  2.290428 2.199654e-02
+## concave.points_mean  76.57121004 16.427864481  4.661057 3.145898e-06
+```
+
+```r
+### 6.3
+anova(fit_6_1, fit_6_2, test="Chisq")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model 1: diagnosis ~ radius_mean + texture_mean + perimeter_mean + area_mean + 
+##     smoothness_mean + compactness_mean + concavity_mean + concave.points_mean + 
+##     symmetry_mean + fractal_dimension_mean
+## Model 2: diagnosis ~ texture_mean + area_mean + smoothness_mean + concave.points_mean
+##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+## 1       558     146.13                     
+## 2       564     156.44 -6   -10.31   0.1122
+```
+
+
+---
+class: center, middle
+
+homowork-6.4
+
+![](https://media0.giphy.com/media/emIVSAPM4th6M/giphy.gif)
+
+
+
+---
+class: middle
+
+
+```r
+# homowork-6.4: R-code
+train_data &lt;- data_6[1:398,]
+test_data &lt;- data_6[399:nrow(data_6),]
+fit_train &lt;- glm(diagnosis ~ ., data = train_data[, c('diagnosis',
+                 'texture_mean', 'area_mean', 'smoothness_mean', 'concave.points_mean')], family = binomial())
+test &lt;- predict(fit_train, test_data[, c('diagnosis',
+                 'texture_mean', 'area_mean', 'smoothness_mean', 'concave.points_mean')], type = "response")
+test[test &gt;= 0.5] &lt;- 1
+test[test &lt; 0.5] &lt;- 0
+table(data_6$diagnosis[399:nrow(data_6)] == factor(test, levels = c(0 , 1), labels = c("B", "M")))
+```
+
+```
+## 
+## FALSE  TRUE 
+##    16   155
+```
+
+```r
+155/(16+155)
+```
+
+```
+## [1] 0.9064327
+```
+
+---
+class: inverse, center, middle
+
+# Thanks for supporting
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
