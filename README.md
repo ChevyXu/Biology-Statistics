@@ -7,5 +7,5 @@ http://xuchunhui.top/Bio-Statistics/
 |   课程   |  使用PPT   |  下载资源    |
 | ---- | ---- | ---- |
 |  Class1    |    http://xuchunhui.top/Bio-Statistics/First_class.html  |      |
-|      |      |      |
-|      |      |      |
+|  Class2    |    http://xuchunhui.top/Bio-Statistics/Second_class.html  |      |
+|  Class3    |    http://xuchunhui.top/Bio-Statistics/Third_class.html  |      |
