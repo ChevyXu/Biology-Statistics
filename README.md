@@ -1,9 +1,12 @@
+
+
 ---
 title: "使用DESeq2分析RNA-seq数据"
 author: "Chunhui Xu"
 date: "2021/4/19"
 output: html_document
 ---
+# Bio-Statistics
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
